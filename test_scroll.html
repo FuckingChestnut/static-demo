@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>test scroll</title>
+    <style type="text/css">
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .outerList {
+            list-style-type: none;
+            text-align: center;
+        }
+
+        .outerList>li {
+            height: 34px;
+            font-size: 14px;
+            line-height: 34px
+        }
+
+        .outerList>li:nth-child(2n) {
+            background-color: #999999
+        }
+
+        .outerList>li.specialItem {
+            height: 170px;
+            overflow: auto;
+            border: 1px solid red;
+            background-color: #ffffff
+        }
+
+        .innerList {}
+
+        .innerList>li {
+            height: 24px;
+            font-size: 12px;
+            line-height: 24px;
+        }
+
+        .innerList>li:nth-child(2n) {
+            background-color: skyblue
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="outerList">
+        <li>this is outer_1</li>
+        <li>this is outer_2</li>
+        <li>this is outer_3</li>
+        <li>this is outer_4</li>
+        <li>this is outer_5</li>
+        <li class="specialItem">
+            <ul class="innerList">
+                <li>this is inner_1</li>
+                <li>this is inner_2</li>
+                <li>this is inner_3</li>
+                <li>this is inner_4</li>
+                <li>this is inner_5</li>
+                <li>this is inner_6</li>
+                <li>this is inner_7</li>
+                <li>this is inner_8</li>
+                <li>this is inner_9</li>
+                <li>this is inner_10</li>
+                <li>this is inner_11</li>
+                <li>this is inner_12</li>
+                <li>this is inner_13</li>
+                <li>this is inner_14</li>
+                <li>this is inner_15</li>
+                <li>this is inner_16</li>
+                <li>this is inner_17</li>
+                <li>this is inner_18</li>
+                <li>this is inner_19</li>
+                <li>this is inner_20</li>
+            </ul>
+        </li>
+        <li>this is outer_6</li>
+        <li>this is outer_7</li>
+        <li>this is outer_8</li>
+        <li>this is outer_9</li>
+        <li>this is outer_10</li>
+        <li>this is outer_11</li>
+        <li>this is outer_12</li>
+        <li>this is outer_13</li>
+        <li>this is outer_14</li>
+        <li>this is outer_15</li>
+        <li>this is outer_16</li>
+        <li>this is outer_17</li>
+        <li>this is outer_18</li>
+        <li>this is outer_19</li>
+        <li>this is outer_20</li>
+    </ul>
+    <script type="text/javascript">
+        var specialDom = document.querySelector('.specialItem');
+        var innerListDom = document.querySelector('.innerList');
+        var preY = 0;
+        var stageY = 0;
+        var subHeight = specialDom.clientHeight - innerListDom.clientHeight
+
+
+        specialDom.addEventListener('touchstart', function (e) {
+            preY = e.changedTouches[0].pageY
+        })
+        specialDom.addEventListener('touchmove', function (e) {
+            var pageY = e.changedTouches[0].pageY
+            specialDom.scroll({ top: (preY - pageY) - stageY })
+            console.log(e.timeStamp)
+            e.preventDefault()
+        })
+        specialDom.addEventListener('touchend', function(e){
+            stageY = stageY + e.changedTouches[0].pageY - preY
+            stageY = stageY > 0 ? 0 : stageY
+            stageY = stageY < subHeight ? subHeight : stageY
+            console.log('stageY:', stageY)
+        })
+    </script>
+</body>
+
+</html>
